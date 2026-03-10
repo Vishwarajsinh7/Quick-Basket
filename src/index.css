@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap');
+
+:root {
+  --primary-color: #8C2A24;
+  --primary-hover: #7A241F;
+  --gold-color: #C8A153;
+  --bg-cream: #FDF9F3;
+  --bg-white: #FFFFFF;
+  --text-dark: #333333;
+  --text-gray: #777777;
+  --border-light: #E8D6D1;
+  
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-serif: 'Playfair Display', serif;
+}
+
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
+
+body { 
+  font-family: var(--font-sans); 
+  color: var(--text-dark); 
+  background-color: var(--bg-white); 
+  -webkit-font-smoothing: antialiased; 
+}
+
+a { 
+  text-decoration: none; 
+  color: inherit; 
+}
+
+button { 
+  cursor: pointer; 
+  border: none; 
+  font-family: inherit; 
+}
+
+ul {
+  list-style: none;
+}
