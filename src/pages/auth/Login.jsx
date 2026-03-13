@@ -20,7 +20,7 @@ const Login = () => {
 
   return (
     <div className="auth-page">
-      <div className="auth-card">
+      <div className="auth-card login-variant">
         {/* Header Section */}
         <div className="auth-card-header">
           <div className="auth-icon-wrapper">

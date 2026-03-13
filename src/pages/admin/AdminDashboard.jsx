@@ -6,7 +6,7 @@ const AdminDashboard = () => {
   return (
     <div className="admin-page">
       <div className="admin-header-row">
-        <h1 className="admin-title">Dashboard Overview</h1>
+        <h1 className="admin-title" style={{ fontFamily: 'var(--font-serif)', fontSize: '2.5rem', fontWeight: 800, color: 'var(--primary-color)' }}>Dashboard Overview</h1>
         <p className="admin-subtitle">Welcome back, here's what's happening today.</p>
       </div>
 

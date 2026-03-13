@@ -1,11 +1,12 @@
 .admin-sidebar {
-  width: 250px;
+  width: 280px;
   background-color: var(--primary-color);
   color: white;
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease;
-  z-index: 40;
+  transition: var(--transition);
+  z-index: 1000;
+  box-shadow: 4px 0 20px rgba(140, 42, 36, 0.1);
 }
 
 .admin-sidebar-header {
@@ -42,12 +43,12 @@
 .admin-nav-link {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.875rem 1rem;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
   color: rgba(255, 255, 255, 0.8);
-  border-radius: var(--radius-sm);
-  font-weight: 500;
-  transition: all 0.2s;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: var(--transition);
 }
 
 .admin-nav-link:hover {

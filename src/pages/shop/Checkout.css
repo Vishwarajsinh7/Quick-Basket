@@ -1,26 +1,29 @@
 .checkout-page {
-  background-color: var(--bg-color);
-  min-height: calc(100vh - 80px);
+  background-color: var(--bg-cream);
+  min-height: calc(100vh - 90px);
 }
 
 .checkout-layout {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 @media (min-width: 1024px) {
   .checkout-layout {
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1.8fr 1fr;
   }
 }
 
 .checkout-box {
-  background: var(--bg-white);
-  border-radius: var(--radius-lg);
-  padding: 2rem;
-  box-shadow: var(--shadow-sm);
-  margin-bottom: 2rem;
+  background: white;
+  border-radius: 30px;
+  padding: 3rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+  margin-bottom: 3rem;
+  border: 1px solid var(--border-light);
 }
 
 .box-title {

@@ -1,4 +1,4 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
 import ProductCard from '../../components/ProductCard';
 import './User.css';
 
@@ -16,15 +16,17 @@ const Wishlist = () => {
           
           <aside className="user-sidebar">
             <div className="user-info-brief">
-              <div className="user-avatar-large">JD</div>
-              <h3>John Doe</h3>
-              <p>Member since 2023</p>
+              <div className="user-avatar-large">Aa</div>
+              <div className="user-welcome-text">
+                <h3>Aarav Sharma</h3>
+                <p>Member since Jan 2024</p>
+              </div>
             </div>
             <nav className="user-nav">
-              <a href="/profile">My Profile</a>
-              <a href="/orders">Order History</a>
-              <a href="/wishlist" className="active">Wishlist</a>
-              <a href="/login" className="text-danger">Log Out</a>
+              <Link to="/profile">My Profile</Link>
+              <Link to="/orders">Order History</Link>
+              <Link to="/wishlist" className="active">Wishlist</Link>
+              <Link to="/login" className="text-danger">Log Out</Link>
             </nav>
           </aside>
 

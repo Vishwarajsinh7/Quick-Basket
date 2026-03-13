@@ -19,12 +19,12 @@ const Profile = () => {
           {/* Sidebar */}
           <aside className="user-sidebar">
             <div className="user-info-brief">
-              <div className="user-avatar-small">
-                <UserAvatar size={32} fill="#888" />
+              <div className="user-avatar-large">
+                Aa
               </div>
-              <div className="user-brief-text">
+              <div className="user-welcome-text">
                 <p>Welcome,</p>
-                <h3>Aarav</h3>
+                <h3>Aarav Sharma</h3>
               </div>
             </div>
 

@@ -14,7 +14,7 @@ const ProductManagement = () => {
   return (
     <div className="admin-page">
       <div className="admin-header-row">
-        <h1 className="admin-title">Products Management</h1>
+        <h1 className="admin-title" style={{ fontFamily: 'var(--font-serif)', fontSize: '2.5rem', fontWeight: 800, color: 'var(--primary-color)' }}>Products Management</h1>
         <p className="admin-subtitle">Manage your inventory, prices, and stock levels.</p>
       </div>
 

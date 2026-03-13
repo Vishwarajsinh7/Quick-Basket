@@ -5,7 +5,7 @@ const Settings = () => {
   return (
     <div className="admin-page">
       <div className="admin-header-row">
-        <h1 className="admin-title">Store Settings</h1>
+        <h1 className="admin-title" style={{ fontFamily: 'var(--font-serif)', fontSize: '2.5rem', fontWeight: 800, color: 'var(--primary-color)' }}>Store Settings</h1>
         <p className="admin-subtitle">Configure your application settings.</p>
       </div>
 

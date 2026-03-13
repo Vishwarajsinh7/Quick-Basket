@@ -4,11 +4,14 @@
   --primary-color: #8C2A24;
   --primary-hover: #7A241F;
   --gold-color: #C8A153;
-  --bg-cream: #FDF9F3;
+  --bg-cream: #FBF7F0;
   --bg-white: #FFFFFF;
   --text-dark: #333333;
-  --text-gray: #777777;
+  --text-gray: #666666;
   --border-light: #E8D6D1;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
   
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-serif: 'Playfair Display', serif;
@@ -23,8 +26,9 @@
 body { 
   font-family: var(--font-sans); 
   color: var(--text-dark); 
-  background-color: var(--bg-white); 
+  background-color: var(--bg-cream); 
   -webkit-font-smoothing: antialiased; 
+  line-height: 1.5;
 }
 
 a { 

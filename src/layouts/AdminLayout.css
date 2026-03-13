@@ -1,7 +1,7 @@
 .admin-layout {
   display: flex;
   min-height: 100vh;
-  background-color: var(--bg-color);
+  background-color: var(--bg-cream);
 }
 
 .admin-main {
@@ -12,16 +12,17 @@
 }
 
 .admin-header {
-  height: 70px;
-  background-color: var(--bg-white);
-  border-bottom: 1px solid var(--border-color);
+  height: 90px;
+  background-color: white;
+  border-bottom: 1px solid var(--border-light);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 2rem;
+  padding: 0 3rem;
   position: sticky;
   top: 0;
   z-index: 30;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
 }
 
 .admin-mobile-toggle {

@@ -26,7 +26,7 @@ const OrderManagement = () => {
   return (
     <div className="admin-page">
       <div className="admin-header-row">
-        <h1 className="admin-title">Orders Management</h1>
+        <h1 className="admin-title" style={{ fontFamily: 'var(--font-serif)', fontSize: '2.5rem', fontWeight: 800, color: 'var(--primary-color)' }}>Orders Management</h1>
         <p className="admin-subtitle">View and manage customer orders.</p>
       </div>
 

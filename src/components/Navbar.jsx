@@ -15,28 +15,28 @@ const Navbar = () => {
     <header className="navbar-container">
       <div className="navbar-inner">
         <Link to="/" className="nav-logo">
-          <LogoBasket className="logo-icon" size={24} />
+          <LogoBasket className="logo-icon" size={28} />
           <span>Quick Basket</span>
         </Link>
         
         <nav className="nav-links">
           <NavLink to="/" className="nav-link">Home</NavLink>
-          <NavLink to="/products" className="nav-link">Catalog</NavLink>
+          <NavLink to="/products" className="nav-link">Shop</NavLink>
         </nav>
 
         <div className="nav-actions">
           <Link to="/cart" className="nav-cart-btn">
-            <ShoppingCart size={20} />
-            <span className="cart-badge">2</span>
+            <ShoppingCart size={22} />
+            <span className="cart-badge">0</span>
           </Link>
           
           {isLoggedIn ? (
             <Link to="/profile" className="nav-user-btn">
-              <UserAvatar size={16} /> Hi, Aarav ▾
+              <UserAvatar size={18} /> Hi, User ▾
             </Link>
           ) : (
             <Link to="/login" className="nav-login-btn">
-              <UserAvatar size={16} /> Login
+              <UserAvatar size={18} /> Login
             </Link>
           )}
         </div>

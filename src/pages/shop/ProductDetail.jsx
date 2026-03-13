@@ -14,7 +14,7 @@ const ProductDetail = () => {
   };
 
   return (
-    <div className="product-detail-page bg-white">
+    <div className="product-detail-page">
       <div className="container py-12">
         <div className="product-detail-layout">
           
