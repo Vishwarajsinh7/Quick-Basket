@@ -5,18 +5,27 @@ function HomePage() {
   return (
     <>
       <div className="hero-box p-5 mb-5 text-center">
-        <div className="py-4">
-          <h1 className="display-4 fw-bold mb-3">Freshness Delivered.</h1>
-          <p className="col-md-8 fs-4 mx-auto text-muted mb-4">
-            Premium groceries, organic produce, and daily essentials delivered to your doorstep in under 60 minutes.
-          </p>
-          <div className="d-flex justify-content-center gap-3">
-            <Link to="/catalog" className="btn btn-primary btn-lg px-5">
-              <i className="fa-solid fa-basket-shopping me-2" /> Shop Now
-            </Link>
-            <Link to="/catalog" className="btn btn-outline-primary btn-lg px-4">
-              <i className="fa-solid fa-percent me-2" /> View Deals
-            </Link>
+        <div className="row align-items-center py-4">
+          <div className="col-md-6 text-start">
+            <h1 className="display-4 fw-bold mb-3">Freshness Delivered.</h1>
+            <p className="fs-5 text-muted mb-4">
+              Premium groceries, organic produce, and daily essentials delivered to your doorstep in under 60 minutes.
+            </p>
+            <div className="d-flex gap-3">
+              <Link to="/catalog" className="btn btn-primary btn-lg px-5">
+                <i className="fa-solid fa-basket-shopping me-2" /> Shop Now
+              </Link>
+              <Link to="/catalog" className="btn btn-outline-primary btn-lg px-4">
+                <i className="fa-solid fa-percent me-2" /> View Deals
+              </Link>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <img
+              src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&h=400&fit=crop"
+              alt="Fresh groceries"
+              className="img-fluid rounded-3 shadow"
+            />
           </div>
         </div>
       </div>
@@ -25,8 +34,13 @@ function HomePage() {
         <div className="col-md-4">
           <div className="card h-100 text-center p-4">
             <div className="card-body">
-              <div className="mb-3" style={{ color: 'var(--wad-accent)' }}>
-                <i className="fa-solid fa-apple-whole fa-4x" />
+              <div className="mb-3">
+                <img
+                  src="https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=200&h=200&fit=crop"
+                  alt="Fresh Produce"
+                  className="rounded-circle"
+                  style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                />
               </div>
               <h3>Fresh Produce</h3>
               <p className="text-muted">
@@ -48,8 +62,13 @@ function HomePage() {
             style={{ backgroundColor: 'var(--wad-primary)' }}
           >
             <div className="card-body">
-              <div className="mb-3 text-warning">
-                <i className="fa-solid fa-bread-slice fa-4x" />
+              <div className="mb-3">
+                <img
+                  src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=200&h=200&fit=crop"
+                  alt="Bakery"
+                  className="rounded-circle"
+                  style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                />
               </div>
               <h3 className="text-white">Bakery</h3>
               <p className="text-white-50">
@@ -68,8 +87,13 @@ function HomePage() {
         <div className="col-md-4">
           <div className="card h-100 text-center p-4">
             <div className="card-body">
-              <div className="mb-3" style={{ color: 'var(--wad-accent)' }}>
-                <i className="fa-solid fa-bottle-water fa-4x" />
+              <div className="mb-3">
+                <img
+                  src="https://images.unsplash.com/photo-1586201375761-83865001e31c?w=200&h=200&fit=crop"
+                  alt="Pantry"
+                  className="rounded-circle"
+                  style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                />
               </div>
               <h3>Pantry</h3>
               <p className="text-muted">

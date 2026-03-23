@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useCart } from '../context/CartContext';
+import { Link } from 'react-router-dom';
 
 function ProductDetailsPage() {
   const product = {
@@ -6,13 +8,14 @@ function ProductDetailsPage() {
     name: 'Organic Apples',
     category: 'Fresh Produce',
     description:
-      'Crisp, sweet organic apples sourced directly from local farms.',
+      'Crisp, sweet organic apples sourced directly from local farms. These premium quality apples are hand-picked and carefully sorted to ensure you get the best freshness. Perfect for snacking, salads, or baking.',
     price: 199,
     stockQuantity: 25,
-    icon: 'fa-apple-whole'
+    image: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=600&h=600&fit=crop'
   };
 
   const inStock = product.stockQuantity > 0;
+  const { addToCart } = useCart();
 
   return (
     <div className="container mt-5 mb-5">
@@ -32,12 +35,12 @@ function ProductDetailsPage() {
       <div className="card border-0 shadow-sm p-4 mb-5">
         <div className="row g-5">
           <div className="col-md-6">
-            <div
-              className="bg-light rounded-3 d-flex align-items-center justify-content-center"
-              style={{ height: '400px', color: 'var(--wad-accent)' }}
-            >
-              <i className={`fa-solid ${product.icon} fa-10x`} />
-            </div>
+            <img
+              src={product.image}
+              alt={product.name}
+              className="img-fluid rounded-3"
+              style={{ height: '400px', width: '100%', objectFit: 'cover' }}
+            />
           </div>
           <div className="col-md-6">
             <div className="mb-2">
@@ -98,6 +101,11 @@ function ProductDetailsPage() {
                   <button
                     type="button"
                     className="btn btn-primary btn-lg flex-grow-1 shadow-sm"
+                    onClick={() => {
+                      const qtyInput = document.getElementById('qty');
+                      const quantity = qtyInput ? parseInt(qtyInput.value) || 1 : 1;
+                      addToCart(product, quantity);
+                    }}
                   >
                     <i className="fa-solid fa-cart-plus me-2" />
                     Add to Cart

@@ -1,22 +1,54 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 function LoginPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try {
+      await login(email, password);
+      navigate('/');
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="auth-layout">
       <div className="auth-card shadow-lg">
         <div className="auth-header">
           <i className="fa-solid fa-basket-shopping fa-3x mb-2" />
-          <h3 className="fw-bold mb-0">Quick Basket</h3>
+          <h3 className="fw-bold mb-0">Login to Quick Basket</h3>
           <p className="mb-0 opacity-75">Welcome Back!</p>
         </div>
         <div className="p-4">
-          <form>
+          {error && (
+            <div className="alert alert-danger" role="alert">
+              {error}
+            </div>
+          )}
+          <form onSubmit={handleSubmit}>
             <div className="form-floating mb-3">
               <input
                 type="email"
                 className="form-control"
                 placeholder="name@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
               <label>Email address</label>
             </div>
@@ -25,6 +57,10 @@ function LoginPage() {
                 type="password"
                 className="form-control"
                 placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                minLength={6}
               />
               <label>Password</label>
             </div>
@@ -34,6 +70,8 @@ function LoginPage() {
                   id="rememberMe"
                   className="form-check-input"
                   type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
                 />
                 <label
                   className="form-check-label text-muted small"
@@ -52,9 +90,10 @@ function LoginPage() {
             </div>
             <button
               className="w-100 btn btn-lg btn-primary mb-3 shadow-sm"
-              type="button"
+              type="submit"
+              disabled={loading}
             >
-              Sign In
+              {loading ? 'Signing In...' : 'Sign In'}
             </button>
             <div className="text-center">
               <p className="text-muted small mb-0">
@@ -84,4 +123,3 @@ function LoginPage() {
 }
 
 export default LoginPage;
-
