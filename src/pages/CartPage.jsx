@@ -1,26 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import EmptyState from '../components/EmptyState';
-
-// Simple mock cart items; replace with real data later.
-const mockCart = [
-  {
-    id: 1,
-    name: 'Organic Apples',
-    icon: 'fa-apple-whole',
-    price: 199,
-    quantity: 2
-  }
-];
+import { useCart } from '../context/CartContext';
+import { Link } from 'react-router-dom';
 
 function CartPage() {
-  const hasItems = mockCart.length > 0;
-  const subtotal = mockCart.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+  const { cartItems, updateQuantity, removeFromCart, getCartTotal } = useCart();
+  
+  const hasItems = cartItems.length > 0;
+  const subtotal = getCartTotal();
   const gstPercentage = 5;
   const taxAmount = subtotal * (gstPercentage / 100);
-  const total = subtotal + taxAmount;
+  const deliveryCharge = subtotal > 500 ? 0 : 50;
+  const total = subtotal + taxAmount + deliveryCharge;
 
   if (!hasItems) {
     return (
@@ -33,35 +24,38 @@ function CartPage() {
   return (
     <div className="container mt-4">
       <h2 className="mb-4 fw-bold">
-        Shopping Cart ({mockCart.length} Items)
+        Shopping Cart ({cartItems.length} Items)
       </h2>
       <div className="row">
         <div className="col-md-8">
           <div className="card border-0 shadow-sm mb-3">
             <div className="card-body">
-              {mockCart.map((item) => (
+              {cartItems.map((item) => (
                 <div
                   className="d-flex align-items-center mb-4 border-bottom pb-3"
                   key={item.id}
                 >
-                  <div
-                    className="bg-light rounded d-flex align-items-center justify-content-center me-3"
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="rounded"
                     style={{
                       width: '80px',
                       height: '80px',
-                      color: 'var(--wad-accent)'
+                      objectFit: 'cover'
                     }}
-                  >
-                    <i className={`fa-solid ${item.icon} fa-2x`} />
-                  </div>
-                  <div className="flex-grow-1">
+                  />
+                  <div className="flex-grow-1 px-3">
                     <h5 className="mb-1">{item.name}</h5>
                     <small className="text-muted">
                       ₹{item.price.toFixed(2)} each
                     </small>
                   </div>
                   <div className="d-flex align-items-center mx-3">
-                    <button className="btn btn-sm btn-outline-secondary">
+                    <button 
+                      className="btn btn-sm btn-outline-secondary"
+                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                    >
                       <i className="fa-solid fa-minus" />
                     </button>
                     <span
@@ -70,7 +64,10 @@ function CartPage() {
                     >
                       {item.quantity}
                     </span>
-                    <button className="btn btn-sm btn-outline-secondary">
+                    <button 
+                      className="btn btn-sm btn-outline-secondary"
+                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                    >
                       <i className="fa-solid fa-plus" />
                     </button>
                   </div>
@@ -78,7 +75,10 @@ function CartPage() {
                     <h5 className="mb-0 text-dark">
                       ₹{(item.price * item.quantity).toFixed(2)}
                     </h5>
-                    <button className="btn btn-link text-danger text-decoration-none p-0 small">
+                    <button 
+                      className="btn btn-link text-danger text-decoration-none p-0 small"
+                      onClick={() => removeFromCart(item.id)}
+                    >
                       Remove
                     </button>
                   </div>
@@ -86,10 +86,10 @@ function CartPage() {
               ))}
             </div>
           </div>
-          <a href="/catalog" className="btn btn-outline-primary mt-2">
+          <Link to="/catalog" className="btn btn-outline-primary mt-2">
             <i className="fa-solid fa-arrow-left me-2" />
             Continue Shopping
-          </a>
+          </Link>
         </div>
         <div className="col-md-4">
           <div className="card border-0 shadow-sm">
@@ -103,7 +103,9 @@ function CartPage() {
               </div>
               <div className="d-flex justify-content-between mb-2">
                 <span className="text-muted">Delivery</span>
-                <span className="text-success">FREE</span>
+                <span className={deliveryCharge === 0 ? 'text-success' : ''}>
+                  {deliveryCharge === 0 ? 'FREE' : `₹${deliveryCharge}`}
+                </span>
               </div>
               <div className="d-flex justify-content-between mb-2">
                 <span className="text-muted">Tax (GST {gstPercentage}%)</span>
@@ -119,13 +121,13 @@ function CartPage() {
                   ₹{total.toFixed(2)}
                 </span>
               </div>
-              <a
-                href="/checkout"
+              <Link
+                to="/checkout"
                 className="btn btn-primary w-100 py-2 shadow-sm d-flex align-items-center justify-content-center"
               >
                 Proceed to Checkout
                 <i className="fa-solid fa-arrow-right ms-2" />
-              </a>
+              </Link>
               <div
                 className="alert alert-warning small mb-0 d-flex align-items-center mt-3"
                 role="alert"
@@ -147,4 +149,3 @@ function CartPage() {
 }
 
 export default CartPage;
-

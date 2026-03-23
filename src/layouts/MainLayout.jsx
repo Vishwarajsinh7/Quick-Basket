@@ -1,11 +1,17 @@
 import React from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
 
 function MainLayout({ children }) {
   const location = useLocation();
   const path = location.pathname.toLowerCase();
   const isFullPage =
     path.startsWith('/auth') || path.startsWith('/admin') || path.startsWith('/delivery');
+  
+  const { user, logout } = useAuth();
+  const { getCartCount } = useCart();
+  const cartCount = getCartCount();
 
   if (isFullPage) {
     // For auth, admin, and delivery routes we let each page render its own full layout
@@ -79,24 +85,70 @@ function MainLayout({ children }) {
                   className="btn btn-outline-primary position-relative border-0"
                 >
                   <i className="fa-solid fa-cart-shopping fa-lg" />
-                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    0
-                  </span>
+                  {cartCount > 0 && (
+                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                      {cartCount}
+                    </span>
+                  )}
                 </Link>
-                <div className="d-flex gap-2">
-                  <Link
-                    to="/auth/login"
-                    className="btn btn-outline-primary fw-bold"
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    to="/auth/register"
-                    className="btn btn-primary shadow-sm"
-                  >
-                    Sign Up
-                  </Link>
-                </div>
+                {user ? (
+                  <div className="dropdown">
+                    <button
+                      className="btn btn-outline-primary dropdown-toggle fw-bold"
+                      type="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      <i className="fa-solid fa-user me-1" />
+                      {user.name || user.firstName}
+                    </button>
+                    <ul className="dropdown-menu dropdown-menu-end">
+                      <li>
+                        <Link className="dropdown-item" to="/user/profile">
+                          <i className="fa-solid fa-user me-2" />
+                          My Profile
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="/user/orders">
+                          <i className="fa-solid fa-box me-2" />
+                          My Orders
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="/user/wishlist">
+                          <i className="fa-solid fa-heart me-2" />
+                          Wishlist
+                        </Link>
+                      </li>
+                      <li><hr className="dropdown-divider" /></li>
+                      <li>
+                        <button
+                          className="dropdown-item text-danger"
+                          onClick={logout}
+                        >
+                          <i className="fa-solid fa-sign-out-alt me-2" />
+                          Logout
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                ) : (
+                  <div className="d-flex gap-2">
+                    <Link
+                      to="/auth/login"
+                      className="btn btn-outline-primary fw-bold"
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      to="/auth/register"
+                      className="btn btn-primary shadow-sm"
+                    >
+                      Sign Up
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
           </div>

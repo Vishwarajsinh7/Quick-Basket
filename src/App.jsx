@@ -1,70 +1,55 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import './App.css';
-
-// Layouts
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
-import AdminLayout from './layouts/AdminLayout';
-
-// Auth Pages
-import Login from './pages/auth/Login';
-import Register from './pages/auth/Register';
-
-// Shop Pages
-import Home from './pages/shop/Home';
-import Products from './pages/shop/Products';
-import ProductDetail from './pages/shop/ProductDetail';
-import Cart from './pages/shop/Cart';
-import Checkout from './pages/shop/Checkout';
-import OrderSummary from './pages/shop/OrderSummary';
-
-// User Pages
-import Profile from './pages/user/Profile';
-import Orders from './pages/user/UserOrders';
-import Wishlist from './pages/user/Wishlist';
-
-// Admin Pages
-import AdminDashboard from './pages/admin/AdminDashboard';
-import AdminOrders from './pages/admin/OrderManagement';
-import AdminProducts from './pages/admin/ProductManagement';
-import AdminUsers from './pages/admin/UserManagement';
-import AdminSettings from './pages/admin/Settings';
+import HomePage from './pages/HomePage';
+import CatalogPage from './pages/CatalogPage';
+import CartPage from './pages/CartPage';
+import ProductDetailsPage from './pages/ProductDetailsPage';
+import CheckoutPage from './pages/CheckoutPage';
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
+import OrderConfirmationPage from './pages/OrderConfirmationPage';
+import NotFoundPage from './pages/NotFoundPage';
+import UserProfilePage from './pages/UserProfilePage';
+import UserOrdersPage from './pages/UserOrdersPage';
+import WishlistPage from './pages/WishlistPage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import AdminDashboardPage from "./pages/AdminDashboardPage";
+import AdminProductsPage from "./pages/AdminProductsPage";
+import AdminUsersPage from "./pages/AdminUsersPage";
+import AdminOrdersPage from "./pages/AdminOrdersPage";
+import AdminMessagePage from "./pages/AdminMessagePage";
+import AdminSettingsPage from './pages/AdminSettingsPage';
+import DeliveryPage from './pages/DeliveryPage';
 
 function App() {
   return (
-    <Router>
-      <div className="app">
-        <Routes>
-          {/* Main Shop Routes */}
-          <Route element={<MainLayout />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/product/:id" element={<ProductDetail />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/order-summary" element={<OrderSummary />} />
-            
-            {/* Auth Routes */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            
-            {/* User Protected Routes */}
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/orders" element={<Orders />} />
-            <Route path="/wishlist" element={<Wishlist />} />
-          </Route>
-
-          {/* Admin Routes */}
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route path="" element={<Navigate to="/admin/dashboard" replace />} />
-            <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="orders" element={<AdminOrders />} />
-            <Route path="products" element={<AdminProducts />} />
-            <Route path="users" element={<AdminUsers />} />
-            <Route path="settings" element={<AdminSettings />} />
-          </Route>
-        </Routes>
-      </div>
-    </Router>
+    <MainLayout>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/catalog" element={<CatalogPage />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/product" element={<ProductDetailsPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/order-confirmation" element={<OrderConfirmationPage />} />
+        <Route path="/user/profile" element={<UserProfilePage />} />
+        <Route path="/user/orders" element={<UserOrdersPage />} />
+        <Route path="/user/wishlist" element={<WishlistPage />} />
+        <Route path="/auth/login" element={<LoginPage />} />
+        <Route path="/auth/register" element={<RegisterPage />} />
+        <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+        <Route path="/admin/products" element={<AdminProductsPage />} />
+        <Route path="/admin/users" element={<AdminUsersPage />} />
+        <Route path="/admin/orders" element={<AdminOrdersPage />} />
+        <Route path="/admin/messages" element={<AdminMessagePage />} />
+        <Route path="/admin/settings" element={<AdminSettingsPage />} />
+        <Route path="/delivery" element={<DeliveryPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </MainLayout>
   );
 }
 
