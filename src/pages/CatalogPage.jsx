@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import EmptyState from '../components/EmptyState';
 import { useCart } from '../context/CartContext';
+import { useSearchParams } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 // Simple mock data to render cards; replace with real API later.
 const mockProducts = [
   {
     id: 1,
-    name: 'Organic Apples',
+    name: 'Organic Apple',
     category: 'Fresh Produce',
     description: 'Crisp, sweet apples sourced from local farms.',
     price: 199,
@@ -15,7 +17,7 @@ const mockProducts = [
   {
     id: 2,
     name: 'Whole Wheat Bread',
-    category: 'Bakery & Dairy',
+    category: 'Bakery',
     description: 'Freshly baked whole wheat loaf.',
     price: 79,
     image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&h=400&fit=crop'
@@ -23,7 +25,7 @@ const mockProducts = [
   {
     id: 3,
     name: 'Basmati Rice',
-    category: 'Pantry Staples',
+    category: 'Grocery',
     description: 'Premium long-grain basmati rice.',
     price: 499,
     image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&h=400&fit=crop'
@@ -31,61 +33,60 @@ const mockProducts = [
   {
     id: 4,
     name: 'Fresh Milk',
-    category: 'Bakery & Dairy',
+    category: 'Dairy',
     description: 'Organic whole milk, farm fresh.',
     price: 89,
     image: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=400&h=400&fit=crop'
   },
   {
     id: 5,
-    name: 'Organic Bananas',
-    category: 'Fresh Produce',
-    description: 'Sweet and ripe organic bananas.',
-    price: 59,
-    image: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&h=400&fit=crop'
-  },
-  {
-    id: 6,
-    name: 'Tomatoes',
-    category: 'Fresh Produce',
-    description: 'Fresh red tomatoes.',
-    price: 45,
-    image: 'https://images.unsplash.com/photo-1546470427-f5d4b7c4f2e7?w=400&h=400&fit=crop'
-  },
-  {
-    id: 7,
     name: 'Greek Yogurt',
-    category: 'Bakery & Dairy',
+    category: 'Dairy',
     description: 'Creamy Greek yogurt, rich in protein.',
     price: 120,
     image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&h=400&fit=crop'
   },
   {
-    id: 8,
+    id: 6,
     name: 'Olive Oil',
-    category: 'Pantry Staples',
+    category: 'Grocery',
     description: 'Extra virgin olive oil, cold pressed.',
     price: 350,
-    image: 'https://images.unsplash.com/photo-1474979266404-7eaacbcdcef5?w=400&h=400&fit=crop'
-  },
-  {
-    id: 9,
-    name: 'Green Spinach',
-    category: 'Fresh Produce',
-    description: 'Fresh organic spinach leaves.',
-    price: 35,
-    image: 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=400&h=400&fit=crop'
+    image: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400&h=400&fit=crop'
   }
 ];
 
 // Get unique categories
-const categories = ['All Products', 'Fresh Produce', 'Bakery & Dairy', 'Pantry Staples'];
+const categories = ['All Products', 'Fresh Produce', 'Bakery', 'Grocery', 'Dairy'];
 
 function CatalogPage() {
-  const [selectedCategory, setSelectedCategory] = useState('All Products');
+  const [searchParams] = useSearchParams();
+  const urlCategory = searchParams.get('category');
+  const [selectedCategory, setSelectedCategory] = useState(urlCategory || 'All Products');
   const [maxPrice, setMaxPrice] = useState(2000);
   const [sortBy, setSortBy] = useState('popularity');
   const { addToCart } = useCart();
+  const { isAuthenticated } = useAuth();
+
+  const handleAddToCart = (item, quantity = 1) => {
+    if (!isAuthenticated) {
+      window.location.href = '/auth/login';
+      return;
+    }
+    for (let i = 0; i < quantity; i++) {
+      addToCart(item);
+    }
+  };
+
+  const [quantities, setQuantities] = useState({});
+
+  const handleQuantityChange = (id, delta) => {
+    setQuantities(prev => {
+      const current = prev[id] || 1;
+      const newQty = Math.max(1, current + delta);
+      return { ...prev, [id]: newQty };
+    });
+  };
 
   // Filter products based on selected category and price
   let filteredProducts = mockProducts.filter(product => {
@@ -209,7 +210,7 @@ function CatalogPage() {
                 <div className="col" key={item.id}>
                   <div className="card h-100">
                     <a
-                      href="/product"
+                      href={"/product/" + item.id}
                       className="text-decoration-none"
                     >
                       <img
@@ -226,7 +227,7 @@ function CatalogPage() {
                         </span>
                       </div>
                       <a
-                        href="/product"
+                        href={"/product/" + item.id}
                         className="text-decoration-none"
                       >
                         <h5 className="card-title text-dark">{item.name}</h5>
@@ -241,14 +242,33 @@ function CatalogPage() {
                         >
                           ₹{item.price}
                         </span>
-                        <button
-                          type="button"
-                          className="btn btn-outline-primary btn-sm rounded-circle p-2 shadow-sm"
-                          title="Add 1 to Cart"
-                          onClick={() => addToCart(item)}
-                        >
-                          <i className="fa-solid fa-plus" />
-                        </button>
+                        <div className="d-flex align-items-center gap-1">
+                          <button
+                            type="button"
+                            className="btn btn-outline-secondary btn-sm"
+                            onClick={() => handleQuantityChange(item.id, -1)}
+                            disabled={!isAuthenticated}
+                          >
+                            <i className="fa-solid fa-minus" />
+                          </button>
+                          <span className="px-2 fw-bold">{quantities[item.id] || 1}</span>
+                          <button
+                            type="button"
+                            className="btn btn-outline-secondary btn-sm"
+                            onClick={() => handleQuantityChange(item.id, 1)}
+                            disabled={!isAuthenticated}
+                          >
+                            <i className="fa-solid fa-plus" />
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-outline-primary btn-sm ms-2"
+                            title={isAuthenticated ? "Add to Cart" : "Login to add to cart"}
+                            onClick={() => handleAddToCart(item, quantities[item.id] || 1)}
+                          >
+                            <i className="fa-solid fa-cart-plus" /> Add
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>

@@ -21,35 +21,41 @@ import AdminUsersPage from "./pages/AdminUsersPage";
 import AdminOrdersPage from "./pages/AdminOrdersPage";
 import AdminMessagePage from "./pages/AdminMessagePage";
 import AdminSettingsPage from './pages/AdminSettingsPage';
+import AdminLoginPage from './pages/AdminLoginPage';
 import DeliveryPage from './pages/DeliveryPage';
 
 function App() {
   return (
-    <MainLayout>
+    <>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/catalog" element={<CatalogPage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/product" element={<ProductDetailsPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/order-confirmation" element={<OrderConfirmationPage />} />
-        <Route path="/user/profile" element={<UserProfilePage />} />
-        <Route path="/user/orders" element={<UserOrdersPage />} />
-        <Route path="/user/wishlist" element={<WishlistPage />} />
-        <Route path="/auth/login" element={<LoginPage />} />
-        <Route path="/auth/register" element={<RegisterPage />} />
-        <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
-        <Route path="/admin/products" element={<AdminProductsPage />} />
-        <Route path="/admin/users" element={<AdminUsersPage />} />
-        <Route path="/admin/orders" element={<AdminOrdersPage />} />
-        <Route path="/admin/messages" element={<AdminMessagePage />} />
-        <Route path="/admin/settings" element={<AdminSettingsPage />} />
-        <Route path="/delivery" element={<DeliveryPage />} />
-        <Route path="*" element={<NotFoundPage />} />
+        <Route path="/admin/login" element={<AdminLoginPage />} />
       </Routes>
-    </MainLayout>
+      <MainLayout>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/catalog" element={<CatalogPage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/product/:id" element={<ProductDetailsPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/order-confirmation" element={<OrderConfirmationPage />} />
+          <Route path="/user/profile" element={<UserProfilePage />} />
+          <Route path="/user/orders" element={<UserOrdersPage />} />
+          <Route path="/user/wishlist" element={<WishlistPage />} />
+          <Route path="/auth/login" element={<LoginPage />} />
+          <Route path="/auth/register" element={<RegisterPage />} />
+          <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+          <Route path="/admin/products" element={<AdminProductsPage />} />
+          <Route path="/admin/users" element={<AdminUsersPage />} />
+          <Route path="/admin/orders" element={<AdminOrdersPage />} />
+          <Route path="/admin/messages" element={<AdminMessagePage />} />
+          <Route path="/admin/settings" element={<AdminSettingsPage />} />
+          <Route path="/delivery" element={<DeliveryPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </MainLayout>
+    </>
   );
 }
 

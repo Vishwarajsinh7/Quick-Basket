@@ -47,7 +47,7 @@ function HomePage() {
                 Organic fruits and vegetables sourced directly from local farmers.
               </p>
               <Link
-                to="/catalog?categoryId=1"
+                to="/catalog?category=Fresh Produce"
                 className="btn btn-outline-primary mt-2 w-100"
               >
                 Browse Fresh
@@ -75,7 +75,7 @@ function HomePage() {
                 Artisan bread, pastries, and cakes baked fresh every morning.
               </p>
               <Link
-                to="/catalog?categoryId=2"
+                to="/catalog?category=Bakery"
                 className="btn btn-light text-primary fw-bold mt-2 w-100"
               >
                 Browse Bakery
@@ -100,7 +100,7 @@ function HomePage() {
                 Essential staples, spices, and international ingredients for your kitchen.
               </p>
               <Link
-                to="/catalog?categoryId=3"
+                to="/catalog?category=Grocery"
                 className="btn btn-outline-primary mt-2 w-100"
               >
                 Browse Pantry

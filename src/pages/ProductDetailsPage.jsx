@@ -1,21 +1,105 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
-function ProductDetailsPage() {
-  const product = {
+// Simple mock data to render cards; replace with real API later.
+const mockProducts = [
+  {
     id: 1,
-    name: 'Organic Apples',
+    name: 'Organic Apple',
     category: 'Fresh Produce',
     description:
       'Crisp, sweet organic apples sourced directly from local farms. These premium quality apples are hand-picked and carefully sorted to ensure you get the best freshness. Perfect for snacking, salads, or baking.',
     price: 199,
     stockQuantity: 25,
     image: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=600&h=600&fit=crop'
+  },
+  {
+    id: 2,
+    name: 'Whole Wheat Bread',
+    category: 'Bakery',
+    description: 'Freshly baked whole wheat loaf, perfect for healthy sandwiches and toast.',
+    price: 79,
+    stockQuantity: 30,
+    image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&h=600&fit=crop'
+  },
+  {
+    id: 3,
+    name: 'Basmati Rice',
+    category: 'Grocery',
+    description: 'Premium long-grain basmati rice, aged for perfect texture and aroma.',
+    price: 499,
+    stockQuantity: 1,
+    image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=600&h=600&fit=crop'
+  },
+  {
+    id: 4,
+    name: 'Fresh Milk',
+    category: 'Dairy',
+    description: 'Organic whole milk, farm fresh and naturally enriched with nutrients.',
+    price: 89,
+    stockQuantity: 40,
+    image: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=600&h=600&fit=crop'
+  },
+  {
+    id: 5,
+    name: 'Greek Yogurt',
+    category: 'Dairy',
+    description: 'Creamy Greek yogurt, rich in protein and probiotics.',
+    price: 120,
+    stockQuantity: 20,
+    image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=600&h=600&fit=crop'
+  },
+  {
+    id: 6,
+    name: 'Olive Oil',
+    category: 'Grocery',
+    description: 'Extra virgin olive oil, cold pressed for authentic Mediterranean flavor.',
+    price: 350,
+    stockQuantity: 25,
+    image: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=600&h=600&fit=crop'
+  }
+];
+
+function ProductDetailsPage() {
+  const { id } = useParams();
+  const [product, setProduct] = useState(null);
+  const { addToCart } = useCart();
+  const { isAuthenticated } = useAuth();
+
+  const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      window.location.href = '/auth/login';
+      return;
+    }
+    const qtyInput = document.getElementById('qty');
+    const quantity = qtyInput ? parseInt(qtyInput.value) || 1 : 1;
+    addToCart(product, quantity);
   };
 
+  useEffect(() => {
+    // Find the product by ID from URL params
+    const productId = parseInt(id);
+    const foundProduct = mockProducts.find(p => p.id === productId);
+    setProduct(foundProduct || null);
+  }, [id]);
+
+  // If product is not found, show error message
+  if (!product) {
+    return (
+      <div className="container mt-5 mb-5">
+        <div className="alert alert-warning" role="alert">
+          <h4 className="alert-heading">Product Not Found</h4>
+          <p>The product you are looking for does not exist or has been removed.</p>
+          <hr />
+          <a href="/catalog" className="btn btn-primary">Go to Catalog</a>
+        </div>
+      </div>
+    );
+  }
+
   const inStock = product.stockQuantity > 0;
-  const { addToCart } = useCart();
 
   return (
     <div className="container mt-5 mb-5">
@@ -101,11 +185,7 @@ function ProductDetailsPage() {
                   <button
                     type="button"
                     className="btn btn-primary btn-lg flex-grow-1 shadow-sm"
-                    onClick={() => {
-                      const qtyInput = document.getElementById('qty');
-                      const quantity = qtyInput ? parseInt(qtyInput.value) || 1 : 1;
-                      addToCart(product, quantity);
-                    }}
+                    onClick={handleAddToCart}
                   >
                     <i className="fa-solid fa-cart-plus me-2" />
                     Add to Cart
@@ -131,12 +211,12 @@ function ProductDetailsPage() {
             <div className="border-top pt-4">
               <div className="row">
                 <div className="col-6 mb-2">
-                  <small className="text-muted fw-bold">SKU</small>
+                  <small className="text-muted fw-bold">BATCH NO</small>
                   <div className="fw-bold">QB-PROD-0001</div>
                 </div>
                 <div className="col-6 mb-2">
                   <small className="text-muted fw-bold">Origin</small>
-                  <div className="fw-bold">Sourced Locally</div>
+                  <div className="fw-bold">Rajkot</div>
                 </div>
               </div>
             </div>
