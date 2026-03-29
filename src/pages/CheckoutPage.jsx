@@ -1,6 +1,15 @@
 import React from 'react';
+import { useCart } from '../context/CartContext';
 
 function CheckoutPage() {
+  const { cartItems, getCartTotal, getCartCount } = useCart();
+  
+  const subtotal = getCartTotal();
+  const gstPercentage = 5;
+  const taxAmount = subtotal * (gstPercentage / 100);
+  const deliveryCharge = subtotal > 500 ? 0 : 50;
+  const total = subtotal + taxAmount + deliveryCharge;
+  const cartCount = getCartCount();
   return (
     <div className="container mt-4 mb-5">
       <div className="row g-5">
@@ -86,7 +95,7 @@ function CheckoutPage() {
               className="w-100 btn btn-primary btn-lg py-3 shadow-sm"
               type="button"
             >
-              Place Order (₹1,299.00)
+              Place Order (₹{total.toFixed(2)})
             </button>
           </form>
         </div>
@@ -98,21 +107,23 @@ function CheckoutPage() {
             <div className="card-header bg-white border-bottom fw-bold py-3">
               Your Cart{' '}
               <span className="badge bg-secondary rounded-pill float-end">
-                1
+                {cartCount}
               </span>
             </div>
             <ul className="list-group list-group-flush">
-              <li className="list-group-item d-flex justify-content-between lh-sm">
-                <div>
-                  <h6 className="my-0">Organic Apples</h6>
-                  <small className="text-muted">Qty: 2</small>
-                </div>
-                <span className="text-muted">₹398.00</span>
-              </li>
+              {cartItems.map((item) => (
+                <li key={item.id} className="list-group-item d-flex justify-content-between lh-sm">
+                  <div>
+                    <h6 className="my-0">{item.name}</h6>
+                    <small className="text-muted">Qty: {item.quantity}</small>
+                  </div>
+                  <span className="text-muted">₹{(item.price * item.quantity).toFixed(2)}</span>
+                </li>
+              ))}
               <li className="list-group-item d-flex justify-content-between">
                 <span>Total (INR)</span>
                 <strong style={{ color: 'var(--wad-primary)' }}>
-                  ₹1,299.00
+                  ₹{total.toFixed(2)}
                 </strong>
               </li>
             </ul>

@@ -1,6 +1,10 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+
 import MainLayout from './layouts/MainLayout';
+import AdminLayout from './layouts/AdminLayout';
+import ProtectedAdminRoute from './components/ProtectedAdminRoute';
+
 import HomePage from './pages/HomePage';
 import CatalogPage from './pages/CatalogPage';
 import CartPage from './pages/CartPage';
@@ -13,43 +17,53 @@ import NotFoundPage from './pages/NotFoundPage';
 import UserProfilePage from './pages/UserProfilePage';
 import UserOrdersPage from './pages/UserOrdersPage';
 import WishlistPage from './pages/WishlistPage';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
+
+import AdminLoginPage from './pages/AdminLoginPage';
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import AdminProductsPage from "./pages/AdminProductsPage";
 import AdminUsersPage from "./pages/AdminUsersPage";
 import AdminOrdersPage from "./pages/AdminOrdersPage";
 import AdminMessagePage from "./pages/AdminMessagePage";
 import AdminSettingsPage from './pages/AdminSettingsPage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+
 import DeliveryPage from './pages/DeliveryPage';
 
 function App() {
   return (
-    <MainLayout>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/catalog" element={<CatalogPage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/product" element={<ProductDetailsPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/order-confirmation" element={<OrderConfirmationPage />} />
-        <Route path="/user/profile" element={<UserProfilePage />} />
-        <Route path="/user/orders" element={<UserOrdersPage />} />
-        <Route path="/user/wishlist" element={<WishlistPage />} />
-        <Route path="/auth/login" element={<LoginPage />} />
-        <Route path="/auth/register" element={<RegisterPage />} />
-        <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
-        <Route path="/admin/products" element={<AdminProductsPage />} />
-        <Route path="/admin/users" element={<AdminUsersPage />} />
-        <Route path="/admin/orders" element={<AdminOrdersPage />} />
-        <Route path="/admin/messages" element={<AdminMessagePage />} />
-        <Route path="/admin/settings" element={<AdminSettingsPage />} />
-        <Route path="/delivery" element={<DeliveryPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </MainLayout>
+    <Routes>
+
+      {/* ADMIN ROUTES */}
+      <Route path="/admin/login" element={<AdminLoginPage />} />
+      <Route path="/admin/dashboard" element={<ProtectedAdminRoute><AdminLayout><AdminDashboardPage /></AdminLayout></ProtectedAdminRoute>} />
+      <Route path="/admin/products" element={<ProtectedAdminRoute><AdminLayout><AdminProductsPage /></AdminLayout></ProtectedAdminRoute>} />
+      <Route path="/admin/users" element={<ProtectedAdminRoute><AdminLayout><AdminUsersPage /></AdminLayout></ProtectedAdminRoute>} />
+      <Route path="/admin/orders" element={<ProtectedAdminRoute><AdminLayout><AdminOrdersPage /></AdminLayout></ProtectedAdminRoute>} />
+      <Route path="/admin/messages" element={<ProtectedAdminRoute><AdminLayout><AdminMessagePage /></AdminLayout></ProtectedAdminRoute>} />
+      <Route path="/admin/settings" element={<ProtectedAdminRoute><AdminLayout><AdminSettingsPage /></AdminLayout></ProtectedAdminRoute>} />
+
+      {/* USER ROUTES */}
+      <Route path="/" element={<MainLayout><HomePage /></MainLayout>} />
+      <Route path="/catalog" element={<MainLayout><CatalogPage /></MainLayout>} />
+      <Route path="/cart" element={<MainLayout><CartPage /></MainLayout>} />
+      <Route path="/product/:id" element={<MainLayout><ProductDetailsPage /></MainLayout>} />
+      <Route path="/checkout" element={<MainLayout><CheckoutPage /></MainLayout>} />
+      <Route path="/about" element={<MainLayout><AboutPage /></MainLayout>} />
+      <Route path="/contact" element={<MainLayout><ContactPage /></MainLayout>} />
+      <Route path="/order-confirmation" element={<MainLayout><OrderConfirmationPage /></MainLayout>} />
+      <Route path="/user/profile" element={<MainLayout><UserProfilePage /></MainLayout>} />
+      <Route path="/user/orders" element={<MainLayout><UserOrdersPage /></MainLayout>} />
+      <Route path="/user/wishlist" element={<MainLayout><WishlistPage /></MainLayout>} />
+      <Route path="/delivery" element={<MainLayout><DeliveryPage /></MainLayout>} />
+      <Route path="/auth/login" element={<MainLayout><LoginPage /></MainLayout>} />
+      <Route path="/auth/register" element={<MainLayout><RegisterPage /></MainLayout>} />
+
+
+      {/* 404 */}
+      <Route path="*" element={<MainLayout><NotFoundPage /></MainLayout>} />
+
+    </Routes>
   );
 }
 

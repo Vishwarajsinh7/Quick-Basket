@@ -11,7 +11,7 @@ function HomePage() {
             <p className="fs-5 text-muted mb-4">
               Premium groceries, organic produce, and daily essentials delivered to your doorstep in under 60 minutes.
             </p>
-            <div className="d-flex gap-3">
+            <div className="d-flex gap-3 flex-wrap">
               <Link to="/catalog" className="btn btn-primary btn-lg px-5">
                 <i className="fa-solid fa-basket-shopping me-2" /> Shop Now
               </Link>
@@ -47,7 +47,7 @@ function HomePage() {
                 Organic fruits and vegetables sourced directly from local farmers.
               </p>
               <Link
-                to="/catalog?categoryId=1"
+                to="/catalog?category=Fresh Produce"
                 className="btn btn-outline-primary mt-2 w-100"
               >
                 Browse Fresh
@@ -75,7 +75,7 @@ function HomePage() {
                 Artisan bread, pastries, and cakes baked fresh every morning.
               </p>
               <Link
-                to="/catalog?categoryId=2"
+                to="/catalog?category=Bakery"
                 className="btn btn-light text-primary fw-bold mt-2 w-100"
               >
                 Browse Bakery
@@ -100,7 +100,7 @@ function HomePage() {
                 Essential staples, spices, and international ingredients for your kitchen.
               </p>
               <Link
-                to="/catalog?categoryId=3"
+                to="/catalog?category=Grocery"
                 className="btn btn-outline-primary mt-2 w-100"
               >
                 Browse Pantry

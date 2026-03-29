@@ -31,7 +31,7 @@ function ContactPage() {
               <p className="text-muted mb-0">
                 123 Market Street, Tech Park
                 <br />
-                Mumbai, Maharashtra 400001
+                Rajkot-360005, Gujarat
               </p>
             </div>
           </div>
@@ -49,7 +49,7 @@ function ContactPage() {
             <div>
               <h5 className="fw-bold mb-1">Call Us</h5>
               <p className="text-muted mb-0">
-                +91 1800-456-789
+                +911800-456-789
                 <br />
                 <small>Mon-Sat, 9am to 6pm</small>
               </p>
@@ -86,7 +86,7 @@ function ContactPage() {
                   </label>
                   <input
                     className="form-control bg-light border-0"
-                    placeholder="John Doe"
+                    placeholder="Vishwaraj"
                   />
                 </div>
                 <div className="col-md-6">
@@ -96,7 +96,7 @@ function ContactPage() {
                   <input
                     type="email"
                     className="form-control bg-light border-0"
-                    placeholder="john@example.com"
+                    placeholder="vishwaraj@example.com"
                   />
                 </div>
                 <div className="col-12">

@@ -1,17 +1,23 @@
 import React from 'react';
-import { NavLink, Link, useLocation } from 'react-router-dom';
+import { NavLink, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 
 function MainLayout({ children }) {
   const location = useLocation();
+  const navigate = useNavigate();
   const path = location.pathname.toLowerCase();
   const isFullPage =
-    path.startsWith('/auth') || path.startsWith('/admin') || path.startsWith('/delivery');
-  
+    path.startsWith('/admin') || path.startsWith('/delivery');
+
   const { user, logout } = useAuth();
   const { getCartCount } = useCart();
   const cartCount = getCartCount();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   if (isFullPage) {
     // For auth, admin, and delivery routes we let each page render its own full layout
@@ -28,14 +34,14 @@ function MainLayout({ children }) {
               Quick Basket
             </Link>
             <button
-              className="navbar-toggler"
+              className="navbar-toggler d-sm-none"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target=".navbar-collapse"
             >
               <span className="navbar-toggler-icon" />
             </button>
-            <div className="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+            <div className="navbar-collapse  d-sm-flex justify-content-between">
               <ul className="navbar-nav flex-grow-1">
                 <li className="nav-item">
                   <NavLink
@@ -125,7 +131,7 @@ function MainLayout({ children }) {
                       <li>
                         <button
                           className="dropdown-item text-danger"
-                          onClick={logout}
+                          onClick={handleLogout}
                         >
                           <i className="fa-solid fa-sign-out-alt me-2" />
                           Logout
@@ -160,6 +166,7 @@ function MainLayout({ children }) {
       <footer className="footer text-muted">
         <div className="container text-center">
           &copy; {new Date().getFullYear()} - <strong>Quick Basket</strong> - Premium Grocery Platform
+          <Link to="/admin/login" className="ms-2 text-muted small">Admin</Link>
         </div>
       </footer>
       <div className="toast-container position-fixed bottom-0 end-0 p-3">

@@ -2,17 +2,24 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
 
-export function useAuth() {
-  return useContext(AuthContext);
-}
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [admin, setAdmin] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Check for stored user on mount
+  // Check for stored user/admin on mount
   useEffect(() => {
     const storedUser = localStorage.getItem('quickbasket_user');
+    const storedAdmin = localStorage.getItem('quickbasket_admin');
+
     if (storedUser) {
       try {
         setUser(JSON.parse(storedUser));
@@ -20,21 +27,46 @@ export function AuthProvider({ children }) {
         localStorage.removeItem('quickbasket_user');
       }
     }
+
+    if (storedAdmin) {
+      try {
+        setAdmin(JSON.parse(storedAdmin));
+      } catch (e) {
+        localStorage.removeItem('quickbasket_admin');
+      }
+    }
+
     setLoading(false);
   }, []);
 
+  // Login - handles both regular users and admin
   const login = (email, password) => {
-    // Simulate login - in production, this would call an API
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        // Mock validation
-        if (email && password.length >= 6) {
-          const userData = {
+        // Check for admin credentials first
+        if (email === 'admin@quickbasket.com' && password === 'admin123') {
+          const adminData = {
             id: 1,
+            email: email,
+            name: 'Admin',
+            role: 'admin'
+          };
+          // Set both admin and user (admin is also a user)
+          setAdmin(adminData);
+          setUser(adminData);
+          localStorage.setItem('quickbasket_admin', JSON.stringify(adminData));
+          localStorage.setItem('quickbasket_user', JSON.stringify(adminData));
+          resolve(adminData);
+        }
+        // Regular user login
+        else if (email && password.length >= 6) {
+          const userData = {
+            id: Date.now(),
             email: email,
             name: email.split('@')[0],
             firstName: 'John',
-            lastName: 'Doe'
+            lastName: 'Doe',
+            role: 'user'
           };
           setUser(userData);
           localStorage.setItem('quickbasket_user', JSON.stringify(userData));
@@ -47,7 +79,6 @@ export function AuthProvider({ children }) {
   };
 
   const register = (firstName, lastName, email, password) => {
-    // Simulate registration - in production, this would call an API
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (email && password.length >= 6 && firstName && lastName) {
@@ -56,7 +87,8 @@ export function AuthProvider({ children }) {
             email: email,
             name: `${firstName} ${lastName}`,
             firstName: firstName,
-            lastName: lastName
+            lastName: lastName,
+            role: 'user'
           };
           setUser(userData);
           localStorage.setItem('quickbasket_user', JSON.stringify(userData));
@@ -68,9 +100,18 @@ export function AuthProvider({ children }) {
     });
   };
 
+  // User logout - logs out both user and admin
   const logout = () => {
     setUser(null);
+    setAdmin(null);
     localStorage.removeItem('quickbasket_user');
+    localStorage.removeItem('quickbasket_admin');
+  };
+
+  // Admin specific logout (keeps user logged in)
+  const adminLogout = () => {
+    setAdmin(null);
+    localStorage.removeItem('quickbasket_admin');
   };
 
   const updateProfile = (userData) => {
@@ -82,12 +123,15 @@ export function AuthProvider({ children }) {
   return (
     <AuthContext.Provider value={{
       user,
+      admin,
       loading,
       login,
       register,
       logout,
+      adminLogout,
       updateProfile,
-      isAuthenticated: !!user
+      isAuthenticated: !!user,
+      isAdminAuthenticated: !!admin
     }}>
       {children}
     </AuthContext.Provider>

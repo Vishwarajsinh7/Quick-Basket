@@ -1,125 +1,175 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-function LoginPage() {
+export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const { login } = useAuth();
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
-
     try {
-      await login(email, password);
-      navigate('/');
+      const userData = await login(email, password);
+      // Redirect admin to dashboard, regular user to home
+      if (userData.role === 'admin') {
+        navigate('/admin/dashboard');
+      } else {
+        navigate('/');
+      }
     } catch (err) {
-      setError(err.message);
+      setError(err.message || 'Login failed. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="auth-layout">
-      <div className="auth-card shadow-lg">
-        <div className="auth-header">
-          <i className="fa-solid fa-basket-shopping fa-3x mb-2" />
-          <h3 className="fw-bold mb-0">Login to Quick Basket</h3>
-          <p className="mb-0 opacity-75">Welcome Back!</p>
+    <div
+      className="d-flex align-items-center justify-content-center"
+      style={{ minHeight: 'calc(100vh - 160px)', padding: '2rem 1rem' }}
+    >
+      <div style={{ width: '100%', maxWidth: '440px' }}>
+        {/* Logo / Brand */}
+        <div className="text-center mb-4">
+          <div
+            className="d-inline-flex align-items-center justify-content-center rounded-circle mb-3"
+            style={{
+              width: '64px',
+              height: '64px',
+              background: 'linear-gradient(135deg, var(--primary-color), #C0392B)',
+              boxShadow: '0 4px 16px rgba(140,42,36,0.3)',
+            }}
+          >
+            <i className="fa-solid fa-basket-shopping fa-xl text-white" />
+          </div>
+          <h1
+            className="fw-bold mb-1"
+            style={{
+              color: 'var(--primary-color)',
+              fontFamily: 'var(--font-serif)',
+              fontSize: '1.8rem',
+            }}
+          >
+            Welcome Back
+          </h1>
+          <p className="text-muted small">Sign in to your Quick Basket account</p>
         </div>
-        <div className="p-4">
+
+        {/* Card */}
+        <div
+          className="card border-0 shadow-sm p-4"
+          style={{ borderRadius: '16px', background: '#fff' }}
+        >
           {error && (
-            <div className="alert alert-danger" role="alert">
+            <div className="alert alert-danger py-2 small mb-3" role="alert">
+              <i className="fa-solid fa-circle-exclamation me-2" />
               {error}
             </div>
           )}
-          <form onSubmit={handleSubmit}>
-            <div className="form-floating mb-3">
-              <input
-                type="email"
-                className="form-control"
-                placeholder="name@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-              <label>Email address</label>
-            </div>
-            <div className="form-floating mb-3">
-              <input
-                type="password"
-                className="form-control"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                minLength={6}
-              />
-              <label>Password</label>
-            </div>
-            <div className="d-flex justify-content-between align-items-center mb-4">
-              <div className="form-check">
+
+          <form onSubmit={handleLogin} className="d-flex flex-column gap-3">
+            {/* Email */}
+            <div>
+              <label className="form-label fw-semibold small text-muted mb-1">
+                Email Address
+              </label>
+              <div className="input-group">
+                <span className="input-group-text bg-light border-end-0 text-muted">
+                  <i className="fa-solid fa-envelope fa-sm" />
+                </span>
                 <input
-                  id="rememberMe"
-                  className="form-check-input"
-                  type="checkbox"
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
+                  type="email"
+                  className="form-control bg-light border-start-0 ps-0"
+                  placeholder="you@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  autoComplete="email"
+                  style={{ borderRadius: '0 8px 8px 0' }}
                 />
-                <label
-                  className="form-check-label text-muted small"
-                  htmlFor="rememberMe"
-                >
-                  Remember me
-                </label>
               </div>
-              <a
-                href="#"
-                className="small text-decoration-none"
-                style={{ color: 'var(--wad-primary)' }}
-              >
-                Forgot password?
-              </a>
             </div>
+
+            {/* Password */}
+            <div>
+              <label className="form-label fw-semibold small text-muted mb-1">
+                Password
+              </label>
+              <div className="input-group">
+                <span className="input-group-text bg-light border-end-0 text-muted">
+                  <i className="fa-solid fa-lock fa-sm" />
+                </span>
+                <input
+                  type="password"
+                  className="form-control bg-light border-start-0 ps-0"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  autoComplete="current-password"
+                  style={{ borderRadius: '0 8px 8px 0' }}
+                />
+              </div>
+            </div>
+
+            {/* Submit */}
             <button
-              className="w-100 btn btn-lg btn-primary mb-3 shadow-sm"
               type="submit"
+              className="btn btn-primary btn-lg w-100 mt-2 fw-bold"
               disabled={loading}
+              style={{
+                borderRadius: '10px',
+                background: 'linear-gradient(135deg, var(--primary-color), #C0392B)',
+                border: 'none',
+                boxShadow: '0 4px 12px rgba(140,42,36,0.3)',
+                letterSpacing: '0.3px',
+              }}
             >
-              {loading ? 'Signing In...' : 'Sign In'}
+              {loading ? (
+                <>
+                  <span className="spinner-border spinner-border-sm me-2" role="status" />
+                  Signing in…
+                </>
+              ) : (
+                <>
+                  <i className="fa-solid fa-right-to-bracket me-2" />
+                  Sign In
+                </>
+              )}
             </button>
-            <div className="text-center">
-              <p className="text-muted small mb-0">
-                Don't have an account?
-              </p>
-              <Link
-                to="/auth/register"
-                className="fw-bold text-decoration-none"
-                style={{ color: 'var(--wad-primary)' }}
-              >
-                Create New Account
-              </Link>
-            </div>
-            <hr className="my-4" />
-            <Link
-              to="/"
-              className="btn btn-outline-secondary w-100 btn-sm"
-            >
-              <i className="fa-solid fa-arrow-left me-2" />
-              Back to Store
-            </Link>
           </form>
+
+          {/* Divider */}
+          <div className="d-flex align-items-center my-3 gap-2">
+            <hr className="flex-grow-1 m-0" />
+            <span className="text-muted small">or</span>
+            <hr className="flex-grow-1 m-0" />
+          </div>
+
+          <p className="text-center text-muted small mb-0">
+            Don't have an account?{' '}
+            <Link
+              to="/auth/register"
+              className="fw-bold text-decoration-none"
+              style={{ color: 'var(--primary-color)' }}
+            >
+              Create one
+            </Link>
+          </p>
         </div>
+
+        {/* Admin hint */}
+        <p className="text-center text-muted mt-3" style={{ fontSize: '0.78rem' }}>
+          <i className="fa-solid fa-shield-halved me-1" />
+          Admin? Use <strong>admin@quickbasket.com</strong> / <strong>admin123</strong>
+        </p>
       </div>
     </div>
   );
 }
-
-export default LoginPage;
