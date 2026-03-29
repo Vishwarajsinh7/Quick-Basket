@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap');
-
+@import "tailwindcss";
 :root {
   --primary-color: #8C2A24;
   --primary-hover: #7A241F;
@@ -38,10 +37,5 @@ a {
 
 button { 
   cursor: pointer; 
-  border: none; 
   font-family: inherit; 
-}
-
-ul {
-  list-style: none;
 }

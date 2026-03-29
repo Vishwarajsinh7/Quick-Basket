@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import EmptyState from '../components/EmptyState';
 import { useCart } from '../context/CartContext';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 // Simple mock data to render cards; replace with real API later.
@@ -53,6 +53,7 @@ const mockProducts = [
     description: 'Extra virgin olive oil, cold pressed.',
     price: 350,
     image: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400&h=400&fit=crop'
+    
   }
 ];
 
@@ -65,27 +66,31 @@ function CatalogPage() {
   const [selectedCategory, setSelectedCategory] = useState(urlCategory || 'All Products');
   const [maxPrice, setMaxPrice] = useState(2000);
   const [sortBy, setSortBy] = useState('popularity');
-  const { addToCart } = useCart();
+  const { addToCart, removeFromCart, cartItems, updateQuantity } = useCart();
   const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
-  const handleAddToCart = (item, quantity = 1) => {
-    if (!isAuthenticated) {
-      window.location.href = '/auth/login';
-      return;
-    }
-    for (let i = 0; i < quantity; i++) {
-      addToCart(item);
-    }
+  // Get cart quantity for a specific product
+  const getCartQty = (productId) => {
+    const item = cartItems.find(c => c.id === productId);
+    return item ? item.quantity : 0;
   };
 
-  const [quantities, setQuantities] = useState({});
+  const handleAdd = (item) => {
+    if (!isAuthenticated) {
+      navigate('/auth/login');
+      return;
+    }
+    addToCart(item, 1);
+  };
 
-  const handleQuantityChange = (id, delta) => {
-    setQuantities(prev => {
-      const current = prev[id] || 1;
-      const newQty = Math.max(1, current + delta);
-      return { ...prev, [id]: newQty };
-    });
+  const handleRemove = (item) => {
+    const qty = getCartQty(item.id);
+    if (qty <= 1) {
+      removeFromCart(item.id);
+    } else {
+      updateQuantity(item.id, qty - 1);
+    }
   };
 
   // Filter products based on selected category and price
@@ -235,38 +240,70 @@ function CatalogPage() {
                       <p className="card-text text-muted small">
                         {item.description}
                       </p>
-                      <div className="mt-auto d-flex align-items-center justify-content-between">
-                        <span
-                          className="fs-5 fw-bold"
-                          style={{ color: 'var(--wad-primary)' }}
-                        >
-                          ₹{item.price}
-                        </span>
-                        <div className="d-flex align-items-center gap-1">
+                      <div className="mt-auto">
+                        <div className="d-flex align-items-center justify-content-between mb-2">
+                          <span
+                            className="fs-5 fw-bold"
+                            style={{ color: 'var(--wad-primary)' }}
+                          >
+                            ₹{item.price}
+                          </span>
+                          {getCartQty(item.id) > 0 && (
+                            <span
+                              className="badge rounded-pill"
+                              style={{ background: 'var(--wad-primary)', fontSize: '0.7rem' }}
+                            >
+                              {getCartQty(item.id)} in cart
+                            </span>
+                          )}
+                        </div>
+                        <div className="d-flex align-items-center gap-2">
                           <button
                             type="button"
-                            className="btn btn-outline-secondary btn-sm"
-                            onClick={() => handleQuantityChange(item.id, -1)}
-                            disabled={!isAuthenticated}
+                            className="btn btn-sm fw-bold"
+                            style={{
+                              width: '36px',
+                              height: '36px',
+                              borderRadius: '50%',
+                              border: '2px solid var(--wad-primary)',
+                              color: getCartQty(item.id) > 0 ? '#fff' : 'var(--wad-primary)',
+                              background: getCartQty(item.id) > 0 ? 'var(--wad-primary)' : 'transparent',
+                              lineHeight: 1,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                            }}
+                            onClick={() => handleRemove(item)}
+                            disabled={getCartQty(item.id) === 0}
+                            title="Remove from cart"
                           >
                             <i className="fa-solid fa-minus" />
                           </button>
-                          <span className="px-2 fw-bold">{quantities[item.id] || 1}</span>
+                          <span
+                            className="fw-bold text-center"
+                            style={{ minWidth: '28px', fontSize: '1rem' }}
+                          >
+                            {getCartQty(item.id)}
+                          </span>
                           <button
                             type="button"
-                            className="btn btn-outline-secondary btn-sm"
-                            onClick={() => handleQuantityChange(item.id, 1)}
-                            disabled={!isAuthenticated}
+                            className="btn btn-sm fw-bold"
+                            style={{
+                              width: '36px',
+                              height: '36px',
+                              borderRadius: '50%',
+                              border: '2px solid var(--wad-primary)',
+                              color: '#fff',
+                              background: 'var(--wad-primary)',
+                              lineHeight: 1,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                            }}
+                            onClick={() => handleAdd(item)}
+                            title={isAuthenticated ? 'Add to cart' : 'Login to add to cart'}
                           >
                             <i className="fa-solid fa-plus" />
-                          </button>
-                          <button
-                            type="button"
-                            className="btn btn-outline-primary btn-sm ms-2"
-                            title={isAuthenticated ? "Add to Cart" : "Login to add to cart"}
-                            onClick={() => handleAddToCart(item, quantities[item.id] || 1)}
-                          >
-                            <i className="fa-solid fa-cart-plus" /> Add
                           </button>
                         </div>
                       </div>

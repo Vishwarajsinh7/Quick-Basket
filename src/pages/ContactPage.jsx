@@ -31,7 +31,7 @@ function ContactPage() {
               <p className="text-muted mb-0">
                 123 Market Street, Tech Park
                 <br />
-                Rajkot, Gujarat 360005
+                Rajkot-360005, Gujarat
               </p>
             </div>
           </div>

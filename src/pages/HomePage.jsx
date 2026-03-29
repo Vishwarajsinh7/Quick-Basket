@@ -11,7 +11,7 @@ function HomePage() {
             <p className="fs-5 text-muted mb-4">
               Premium groceries, organic produce, and daily essentials delivered to your doorstep in under 60 minutes.
             </p>
-            <div className="d-flex gap-3">
+            <div className="d-flex gap-3 flex-wrap">
               <Link to="/catalog" className="btn btn-primary btn-lg px-5">
                 <i className="fa-solid fa-basket-shopping me-2" /> Shop Now
               </Link>

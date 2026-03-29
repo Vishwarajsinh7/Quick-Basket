@@ -8,8 +8,8 @@ function MainLayout({ children }) {
   const navigate = useNavigate();
   const path = location.pathname.toLowerCase();
   const isFullPage =
-    path.startsWith('/auth') || path.startsWith('/admin') || path.startsWith('/delivery');
-  
+    path.startsWith('/admin') || path.startsWith('/delivery');
+
   const { user, logout } = useAuth();
   const { getCartCount } = useCart();
   const cartCount = getCartCount();
@@ -34,14 +34,14 @@ function MainLayout({ children }) {
               Quick Basket
             </Link>
             <button
-              className="navbar-toggler"
+              className="navbar-toggler d-sm-none"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target=".navbar-collapse"
             >
               <span className="navbar-toggler-icon" />
             </button>
-            <div className="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+            <div className="navbar-collapse  d-sm-flex justify-content-between">
               <ul className="navbar-nav flex-grow-1">
                 <li className="nav-item">
                   <NavLink

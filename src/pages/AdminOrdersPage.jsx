@@ -1,130 +1,135 @@
-import React from 'react';
-import AdminLayout from '../layouts/AdminLayout';
+import { FaBox, FaClipboardList, FaUsers, FaCog } from "react-icons/fa";
 
-const mockMessages = [
-  {
-    id: 1,
-    name: 'John Doe',
-    email: 'john@example.com',
-    subject: 'Order not delivered',
-    message: 'Hi, my order has not been delivered yet.',
-    createdAt: '12 Mar 2026, 15:20',
-    isRead: false
-  }
-];
+export default function AdminOrdersPage() {
+  const orders = [
+    {
+      id: "#QB-2026-8859",
+      customer: "Aarav Sharma",
+      date: "15 Feb, 2026",
+      total: "₹330.75",
+      status: "Delivered",
+    },
+    {
+      id: "#QB-2026-8858",
+      customer: "Priya Singh",
+      date: "15 Feb, 2026",
+      total: "₹1,250.00",
+      status: "Out for Delivery",
+    },
+    {
+      id: "#QB-2026-8857",
+      customer: "Rohan Mehta",
+      date: "14 Feb, 2026",
+      total: "₹610.50",
+      status: "Processing",
+    },
+    {
+      id: "#QB-2026-8856",
+      customer: "Anika Desai",
+      date: "14 Feb, 2026",
+      total: "₹2,100.00",
+      status: "Delivered",
+    },
+    {
+      id: "#QB-2026-8855",
+      customer: "Vikram Patil",
+      date: "13 Feb, 2026",
+      total: "₹880.00",
+      status: "Cancelled",
+    },
+  ];
 
-function AdminMessagesPage() {
-  const hasMessages = mockMessages.length > 0;
-  const unreadCount = mockMessages.filter((m) => !m.isRead).length;
+  const getStatusStyle = (status) => {
+    switch (status) {
+      case "Delivered":
+        return "bg-[#8B2C1C] text-white";
+      case "Out for Delivery":
+        return "bg-[#E3A008] text-white";
+      case "Processing":
+        return "bg-[#00A3A3] text-white";
+      case "Cancelled":
+        return "bg-red-500 text-white";
+      default:
+        return "";
+    }
+  };
 
   return (
-    <AdminLayout>
-      <div className="container mt-4">
-        <div className="d-flex justify-content-between align-items-center mb-4">
-          <h2 className="fw-bold m-0">Customer Inquiries</h2>
-          <span className="badge bg-primary rounded-pill fs-6 px-3 py-2">
-            {unreadCount} Unread
-          </span>
-        </div>
-        <div className="card border-0 shadow-sm">
-          <div className="card-body p-0">
-            <div className="accordion accordion-flush" id="messagesAccordion">
-              {!hasMessages ? (
-                <div className="text-center py-5 text-muted">
-                  <i className="fa-solid fa-inbox fa-3x mb-3 opacity-25" />
-                  <p>No messages found.</p>
-                </div>
-              ) : (
-                mockMessages.map((msg, index) => {
-                  const collapseId = `collapse${index}`;
-                  const headingId = `heading${index}`;
-                  return (
-                    <div
-                      className="accordion-item border-bottom"
-                      key={msg.id}
-                    >
-                      <h2 className="accordion-header" id={headingId}>
-                        <button
-                          className={
-                            'accordion-button collapsed ' +
-                            (msg.isRead
-                              ? 'bg-light text-muted'
-                              : 'fw-bold')
-                          }
-                          type="button"
-                          data-bs-toggle="collapse"
-                          data-bs-target={`#${collapseId}`}
-                          aria-expanded="false"
-                          aria-controls={collapseId}
-                        >
-                          <div className="d-flex w-100 justify-content-between align-items-center me-3">
-                            <div>
-                              {!msg.isRead && (
-                                <span className="badge bg-danger me-2">
-                                  NEW
-                                </span>
-                              )}
-                              {msg.subject}
-                            </div>
-                            <div className="text-end small">
-                              <span className="d-block">{msg.name}</span>
-                              <span
-                                className="text-muted"
-                                style={{ fontSize: '0.8em' }}
-                              >
-                                {msg.createdAt}
-                              </span>
-                            </div>
-                          </div>
-                        </button>
-                      </h2>
-                      <div
-                        id={collapseId}
-                        className="accordion-collapse collapse"
-                        aria-labelledby={headingId}
-                        data-bs-parent="#messagesAccordion"
-                      >
-                        <div className="accordion-body bg-white p-4">
-                          <div className="mb-3 pb-3 border-bottom">
-                            <span className="text-muted small fw-bold">
-                              FROM:
-                            </span>{' '}
-                            {msg.name} &lt;{msg.email}&gt;
-                          </div>
-                          <p className="mb-4" style={{ whiteSpace: 'pre-wrap' }}>
-                            {msg.message}
-                          </p>
-                          <div className="d-flex justify-content-end gap-2">
-                            <a
-                              href={`mailto:${msg.email}`}
-                              className="btn btn-outline-primary btn-sm"
-                            >
-                              <i className="fa-solid fa-reply me-1" />
-                              Reply via Email
-                            </a>
-                            {!msg.isRead && (
-                              <button
-                                type="button"
-                                className="btn btn-success btn-sm text-white"
-                              >
-                                <i className="fa-solid fa-check-double me-1" />
-                                Mark as Read
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })
-              )}
-            </div>
+    <div className="flex min-h-screen bg-[#2e2e2e]">
+      
+      {/* SIDEBAR */}
+      <div className="w-64 bg-[#8B2C1C] text-white flex flex-col justify-between p-4">
+        <div>
+          <div className="flex flex-col items-center mb-8">
+            <div className="text-3xl mb-2">📦</div>
+            <h2 className="text-sm tracking-wide">ADMIN PANEL</h2>
           </div>
+
+          <ul className="space-y-4 text-sm">
+            <li className="opacity-80">Dashboard</li>
+            <li className="bg-[#f5efe6] text-black px-3 py-2 rounded">Orders</li>
+            <li className="opacity-80">Products</li>
+            <li className="opacity-80">Users</li>
+            <li className="opacity-80">Settings</li>
+          </ul>
         </div>
+
+        <button className="border border-white rounded px-3 py-2 text-sm">
+          ⬅ Logout
+        </button>
       </div>
-    </AdminLayout>
+
+      {/* MAIN CONTENT */}
+      <div className="flex-1 bg-[#f5efe6] p-8 rounded-l-2xl">
+        
+        {/* HEADER */}
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-xl font-semibold text-[#8B2C1C]">
+            Order Management
+          </h1>
+
+          <button className="bg-[#8B2C1C] text-white px-4 py-2 rounded-md text-sm">
+            + New Order
+          </button>
+        </div>
+
+        {/* TABLE CARD */}
+        <div className="bg-white rounded-xl p-4 shadow-sm">
+          
+          {/* TABLE HEADER */}
+          <div className="grid grid-cols-5 text-gray-500 text-sm font-medium pb-3 border-b">
+            <span>ORDER ID</span>
+            <span>CUSTOMER</span>
+            <span>DATE</span>
+            <span>TOTAL</span>
+            <span>STATUS</span>
+          </div>
+
+          {/* TABLE ROWS */}
+          {orders.map((order, index) => (
+            <div
+              key={index}
+              className="grid grid-cols-5 items-center py-4 border-b text-sm"
+            >
+              <span className="font-medium">{order.id}</span>
+              <span>{order.customer}</span>
+              <span className="text-gray-500">{order.date}</span>
+              <span>{order.total}</span>
+
+              <span>
+                <span
+                  className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusStyle(
+                    order.status
+                  )}`}
+                >
+                  {order.status.toUpperCase()}
+                </span>
+              </span>
+            </div>
+          ))}
+        </div>
+
+      </div>
+    </div>
   );
 }
-
-export default AdminMessagesPage;
-

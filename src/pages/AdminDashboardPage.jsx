@@ -1,105 +1,49 @@
-  import React from 'react';
-  import AdminLayout from '../layouts/AdminLayout';
+import Sidebar from "../components/Sidebar";
+import Header from "../components/Header";
+import StatCard from "../components/StatCard";
+import SalesChart from "../components/SalesChart";
+import CategoryChart from "../components/CategoryChart";
+import OrdersTable from "../components/OrdersTable";
 
-  function AdminDashboardPage() {
-    return (
-      <AdminLayout>
-        <div className="container mt-4">
-          <h2 className="fw-bold mb-4">Admin Dashboard</h2>
-          <div className="row g-4 mb-4">
-            <div className="col-md-3">
-              <div className="card h-100 p-3 shadow-sm border-0">
-                <div className="d-flex align-items-center">
-                  <div className="bg-light p-3 rounded-3 me-3">
-                    <i
-                      className="fa-solid fa-indian-rupee-sign fa-2x"
-                      style={{ color: 'var(--wad-primary)' }}
-                    />
-                  </div>
-                  <div>
-                    <div className="small text-muted">Total Revenue</div>
-                    <h4 className="fw-bold mb-0">₹2,45,000.00</h4>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-3">
-              <div className="card h-100 p-3 shadow-sm border-0">
-                <div className="d-flex align-items-center">
-                  <div className="bg-light p-3 rounded-3 me-3">
-                    <i
-                      className="fa-solid fa-box-open fa-2x"
-                      style={{ color: 'var(--wad-primary)' }}
-                    />
-                  </div>
-                  <div>
-                    <div className="small text-muted">Total Orders</div>
-                    <h4 className="fw-bold mb-0">320</h4>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-3">
-              <div className="card h-100 p-3 shadow-sm border-0">
-                <div className="d-flex align-items-center">
-                  <div className="bg-light p-3 rounded-3 me-3">
-                    <i
-                      className="fa-solid fa-users fa-2x"
-                      style={{ color: 'var(--wad-primary)' }}
-                    />
-                  </div>
-                  <div>
-                    <div className="small text-muted">Total Users</div>
-                    <h4 className="fw-bold mb-0">1,120</h4>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-3">
-              <div className="card h-100 p-3 shadow-sm border-0">
-                <div className="d-flex align-items-center">
-                  <div className="bg-light p-3 rounded-3 me-3">
-                    <i
-                      className="fa-solid fa-truck-fast fa-2x"
-                      style={{ color: 'var(--wad-primary)' }}
-                    />
-                  </div>
-                  <div>
-                    <div className="small text-muted">Pending Deliveries</div>
-                    <h4 className="fw-bold mb-0">18</h4>
-                  </div>
-                </div>
-              </div>
-            </div>
+import { FaRupeeSign, FaShoppingCart, FaUsers, FaTruck } from "react-icons/fa";
+
+export default function AdminDashboard() {
+  return (
+    <div className="flex bg-[#2b2b2b] min-h-screen">
+      
+      
+
+      <div className="flex-1 p-6 bg-[#f5efe6] rounded-l-2xl">
+
+
+        {/* Stats */}
+        <div className="grid grid-cols-4 gap-4 mt-6">
+          <StatCard icon={<FaRupeeSign />} title="Total Revenue" value="₹8,52,450" />
+          <StatCard icon={<FaShoppingCart />} title="Total Orders" value="1,245" />
+          <StatCard icon={<FaUsers />} title="New Customers" value="82" />
+          <StatCard icon={<FaTruck />} title="Pending Deliveries" value="16" />
+        </div>
+
+        {/* Charts */}
+        <div className="grid grid-cols-3 gap-6 mt-6">
+          <div className="col-span-2 bg-white p-4 rounded-xl">
+            <h2 className="text-lg font-semibold mb-4">Sales Over Time</h2>
+            <SalesChart />
           </div>
-          <div className="row g-4">
-            <div className="col-md-8">
-              <div className="card h-100 p-3 shadow-sm border-0">
-                <div className="card-body">
-                  <h5 className="card-title fw-bold">Sales Over Time</h5>
-                  <div
-                    className="bg-light rounded"
-                    style={{ height: '260px' }}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="card h-100 p-3 shadow-sm border-0">
-                <div className="card-body">
-                  <h5 className="card-title fw-bold">Top Categories</h5>
-                  <div
-                    className="bg-light rounded"
-                    style={{ height: '260px' }}
-                  />
-                </div>
-              </div>
-            </div>
+
+          <div className="bg-white p-4 rounded-xl">
+            <h2 className="text-lg font-semibold mb-4">Top Categories</h2>
+            <CategoryChart />
           </div>
         </div>
-      </AdminLayout>
-    );
-  }
 
-  export default AdminDashboardPage;
+        {/* Orders */}
+        <div className="mt-6 bg-white p-4 rounded-xl">
+          <h2 className="text-lg font-semibold mb-4">Recent Orders</h2>
+          <OrdersTable />
+        </div>
 
+      </div>
+    </div>
+  );
+}
