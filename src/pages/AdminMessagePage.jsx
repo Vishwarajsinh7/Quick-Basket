@@ -1,5 +1,4 @@
 import React from 'react';
-import AdminLayout from '../layouts/AdminLayout';
 
 const mockMessages = [
   {
@@ -18,7 +17,6 @@ function AdminMessagesPage() {
   const unreadCount = mockMessages.filter((m) => !m.isRead).length;
 
   return (
-    <AdminLayout>
       <div className="container mt-4">
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h2 className="fw-bold m-0">Customer Inquiries</h2>
@@ -122,7 +120,6 @@ function AdminMessagesPage() {
           </div>
         </div>
       </div>
-    </AdminLayout>
   );
 }
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import AdminLayout from '../layouts/AdminLayout';
 
 const mockUsers = [
   {
@@ -14,7 +13,6 @@ function AdminUsersPage() {
   const hasUsers = mockUsers.length > 0;
 
   return (
-    <AdminLayout>
       <div className="container mt-4">
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h2 className="fw-bold m-0">User Management</h2>
@@ -104,7 +102,6 @@ function AdminUsersPage() {
           </div>
         </div>
       </div>
-    </AdminLayout>
   );
 }
 

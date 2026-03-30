@@ -1,9 +1,7 @@
 import React from 'react';
-import AdminLayout from '../layouts/AdminLayout';
 
 function AdminSettingsPage() {
   return (
-    <AdminLayout>
       <div className="container mt-4">
         <div className="mb-4">
           <h2 className="fw-bold m-0">Store Settings</h2>
@@ -176,7 +174,6 @@ function AdminSettingsPage() {
           </div>
         </form>
       </div>
-    </AdminLayout>
   );
 }
 
